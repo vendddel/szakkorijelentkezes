@@ -1,0 +1,160 @@
+﻿<Window x:Class="szakkorijelentkezes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:szakkorijelentkezes"
+        mc:Ignorable="d"
+        Title="Szakköri jelentkezés" Background="AliceBlue" Height="750" Width="550"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="DarkBlue"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="SlateGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="LightYellow"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="SlateGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="RoyalBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style TargetType="CheckBox">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+
+        <Style TargetType="Label" x:Key="infoStyle">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="ForestGreen"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=rulesCheckBox}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Width" Value="240"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Background" Value="RoyalBlue"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="IsEnabled" Value="True"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontSize" Value="20"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding IsChecked, ElementName=rulesCheckBox}" Value="False">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Text.Length, ElementName=studentInput}" Value="0">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedIndex, ElementName=clubComboBox}" Value="0">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style TargetType="Label" x:Key="statusStyle">
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Content" Value="Jelentkezésre kész!"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsEnabled, ElementName=registerButton}" Value="False">
+                    <Setter Property="Content" Value="add meg az adattfd kész!"/>
+                    <Setter Property="Foreground" Value="Red"/>
+
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Grid Margin="40">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="55"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="65"/>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="Szakköri Jelentkezés"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Label Content="Diák neve:" Grid.Row="1" Grid.Column="0"/>
+        <TextBox x:Name="studentInput" Grid.Row="1" Grid.Column="1"/>
+
+        <Label Content="Szakkör:" Grid.Row="2" Grid.Column="0"/>
+        <ComboBox x:Name="clubComboBox" Grid.Row="2" Grid.Column="1">
+            <ComboBoxItem Content="Programozás"></ComboBoxItem>
+            <ComboBoxItem Content="Robotika"></ComboBoxItem>
+            <ComboBoxItem Content="Fotózás"></ComboBoxItem>
+            <ComboBoxItem Content="Grafika"></ComboBoxItem>
+            <ComboBoxItem Content="Sport"></ComboBoxItem>
+        </ComboBox>
+
+        <CheckBox Content="Elfogadom a szakköri szabályzatot" x:Name="rulesCheckBox" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+        <Label Content="A szabályzat elfogadva!" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="infoLabel" Style="{StaticResource infoStyle}"/>
+        <Button Content="Jelentkezés" x:Name="registerButton" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="statusLabel"/>
+
+
+
+    </Grid>
+</Window>
